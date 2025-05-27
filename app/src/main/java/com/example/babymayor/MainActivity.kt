@@ -84,7 +84,7 @@ fun CustomScaffold() {
                 // traverses the list of navBarList
                 navBarList.forEachIndexed { index, navBar ->
                     NavigationBarItem(
-                        selected = selectedNavBarIndex.value === index,
+                        selected = selectedNavBarIndex.value == index,
                         onClick = {
                             topBarTitle.value = navBar.label
                             selectedNavBarIndex.value = index

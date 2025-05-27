@@ -1,6 +1,5 @@
 package com.example.babymayor.ui.screens
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +10,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -223,18 +221,18 @@ fun TaskView() {
                 .clip(RoundedCornerShape(10.dp))
         ) {
             LazyColumn {
-                itemsIndexed(taskList.slice(0..4)) { index, task ->
+                itemsIndexed(taskList.slice(0..4)) { _, task ->
                     ListItem(
-                        modifier = Modifier.drawWithContent {
-                            drawContent()
-                            drawLine(
-                                color = Color.LightGray,
-                                strokeWidth = 2.dp.toPx(),
-                                start = Offset(0f, size.height),
-                                end = Offset(size.width, size.height)
-
-                            )
-                        },
+                        modifier = Modifier
+                            .drawWithContent {
+                                drawContent()
+                                drawLine(
+                                    color = Color.LightGray,
+                                    strokeWidth = 2.dp.toPx(),
+                                    start = Offset(0f, size.height),
+                                    end = Offset(size.width, size.height)
+                                )
+                            },
                         headlineContent = {
                             Text(text = task.taskTitle)
                         },
@@ -245,7 +243,8 @@ fun TaskView() {
                             Text(text = task.taskPriority.toString())
                         },
                         trailingContent = {
-                            Text(text = task.taskExpiredDatetime)
+                            // slice string
+                            Text(text = task.taskExpiredDatetime.slice(11 until task.taskExpiredDatetime.length))
                         }
                     )
                 }
