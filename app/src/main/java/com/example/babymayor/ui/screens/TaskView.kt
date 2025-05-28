@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.babymayor.data.model.Task
+import com.example.babymayor.ui.components.PriorityFlag
+import com.example.babymayor.ui.components.SwipeableItem
 
 @Composable
 fun TaskView() {
@@ -228,9 +230,9 @@ fun TaskView() {
                                 drawContent()
                                 drawLine(
                                     color = Color.LightGray,
-                                    strokeWidth = 2.dp.toPx(),
-                                    start = Offset(0f, size.height),
-                                    end = Offset(size.width, size.height)
+                                    strokeWidth = 1.dp.toPx(),
+                                    start = Offset(0f, size.height + 1),
+                                    end = Offset(size.width, size.height + 1)
                                 )
                             },
                         headlineContent = {
@@ -240,16 +242,17 @@ fun TaskView() {
                             Text(text = task.taskNote)
                         },
                         leadingContent = {
-                            Text(text = task.taskPriority.toString())
+                            PriorityFlag(task.taskPriority)
                         },
                         trailingContent = {
-                            // slice string
                             Text(text = task.taskExpiredDatetime.slice(11 until task.taskExpiredDatetime.length))
                         }
                     )
                 }
             }
         }
+
+        SwipeableItem()
     }
 }
 

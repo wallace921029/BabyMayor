@@ -22,12 +22,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.babymayor.data.model.NavBar
 import com.example.babymayor.ui.screens.EventView
@@ -62,10 +64,10 @@ fun CustomScaffold() {
         NavBar(Icons.Outlined.CurrencyExchange, "Finance"),
         NavBar(Icons.Outlined.Person, "My")
     )
-    val selectedNavBarIndex = remember { mutableStateOf(0) }
+    val selectedNavBarIndex = remember { mutableIntStateOf(0) }
 
     val navController = rememberNavController()
-
+    println(navController.currentBackStackEntryAsState())
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -80,26 +82,28 @@ fun CustomScaffold() {
             )
         },
         bottomBar = {
-            NavigationBar {
-                // traverses the list of navBarList
-                navBarList.forEachIndexed { index, navBar ->
-                    NavigationBarItem(
-                        selected = selectedNavBarIndex.value == index,
-                        onClick = {
-                            topBarTitle.value = navBar.label
-                            selectedNavBarIndex.value = index
-                            navController.navigate(navBar.label)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = navBar.icon,
-                                contentDescription = navBar.label
-                            )
-                        },
-                        label = {
-                            Text(navBar.label)
-                        }
-                    )
+            if (topBarTitle.value in listOf("Tasks", "Events", "Finance", "My")) {
+                NavigationBar {
+                    // traverses the list of navBarList
+                    navBarList.forEachIndexed { index, navBar ->
+                        NavigationBarItem(
+                            selected = selectedNavBarIndex.intValue == index,
+                            onClick = {
+                                topBarTitle.value = navBar.label
+                                selectedNavBarIndex.intValue = index
+                                navController.navigate(navBar.label)
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = navBar.icon,
+                                    contentDescription = navBar.label
+                                )
+                            },
+                            label = {
+                                Text(navBar.label)
+                            }
+                        )
+                    }
                 }
             }
         }
