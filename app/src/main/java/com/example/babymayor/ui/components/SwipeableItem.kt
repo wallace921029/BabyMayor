@@ -1,15 +1,18 @@
 package com.example.babymayor.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -36,7 +41,7 @@ fun SwipeableItem() {
     val state = rememberSwipeableState(initialValue = 0)
     val anchors = mapOf(
         0f to 0,
-        with(density) {-(200.dp).toPx()} to 1
+        with(density) { -(200.dp).toPx() } to 1
     )
 
     Box {
@@ -44,43 +49,34 @@ fun SwipeableItem() {
             modifier = Modifier
                 .zIndex(1f)
                 .fillMaxWidth()
-                .background(Color.Red),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Green)
                     .padding(all = 0.dp),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Button(
-                    modifier = Modifier.width(100.dp),
-                    shape = RoundedCornerShape(0),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Blue
-                    ),
-                    onClick = {}
+                Box(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(with(density) {
+                            189.toDp()
+                        })
+                        .background(Color.Blue)
                 ) {
                     Text("Edit")
-                }
-                Button(
-                    modifier = Modifier.width(100.dp),
-                    shape = RoundedCornerShape(0),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
-                    ),
-                    onClick = {}
-                ) {
-                    Text("Delete")
                 }
                 Box(
                     modifier = Modifier
                         .width(100.dp)
-                        .height(100.dp)
-                        .background(Color.Cyan)
-                ) {
-                    Text("Swipe")
+                        .height(with(density) {
+                            189.toDp()
+                        })
+                        .background(Color.Red),
+
+                    ) {
+                    Text("Delete")
                 }
             }
         }
@@ -99,6 +95,7 @@ fun SwipeableItem() {
                 },
         ) {
             ListItem(
+
                 headlineContent = {
                     Text("购物")
                 },
